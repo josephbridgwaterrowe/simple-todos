@@ -6,6 +6,7 @@
     "test": "chimp --mocha --path=tests"
   },
   "dependencies": {
+    "chimp": "0.34.1",
     "meteor-node-stubs": "~0.2.0"
   }
 }
