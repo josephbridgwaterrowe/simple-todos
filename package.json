@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "meteor run",
-    "chimp-test": "chimp --mocha --path=tests"
+    "test": "chimp --mocha --path=tests"
   },
   "dependencies": {
     "meteor-node-stubs": "~0.2.0"
