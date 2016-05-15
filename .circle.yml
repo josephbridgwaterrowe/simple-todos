@@ -6,8 +6,6 @@ machine:
 dependencies:
   cache_directories:
     - "~/.meteor"
-    - "~/.npm"
-    - "~/_opt"
   override:
     - curl https://install.meteor.com | /bin/sh
     - npm install selenium-webdriver@2.47.0 mkdirp
