@@ -4,9 +4,15 @@ machine:
   node:
     version: 0.10.43
 dependencies:
+  cache_directories:
+    - "~/.meteor"
+    - "~/.npm"
+    - "~/_opt"
   override:
     - curl https://install.meteor.com | /bin/sh
+    - npm install selenium-webdriver@2.47.0 mkdirp
     - npm install
+    - meteor
 checkout:
   post:
     - git submodule update --init
