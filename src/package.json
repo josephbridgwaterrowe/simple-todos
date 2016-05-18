@@ -2,11 +2,8 @@
   "name": "simple-todos",
   "private": true,
   "scripts": {
-    "start": ".scripts/start.js",
-    "test": ".scripts/test.js"
   },
   "dependencies": {
-    "chimp": "0.34.1",
     "meteor-node-stubs": "~0.2.0"
   }
 }
