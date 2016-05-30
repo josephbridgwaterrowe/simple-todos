@@ -1,1 +1,10 @@
-node_modules/
+*.swp
+*~
+*.iml
+*.log
+.*.haste_cache.*
+.DS_Store
+.idea
+npm-debug.log
+node_modules
+.screenshots

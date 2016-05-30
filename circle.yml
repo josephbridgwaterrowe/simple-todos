@@ -1,0 +1,64 @@
+machine:
+  java:
+    version: oraclejdk8
+  node:
+    version: 5.2.0
+
+general:
+  branches:
+    ignore:
+      - gh-pages
+
+dependencies:
+  cache_directories:
+    - "node_modules"
+    - "~/.npm"
+    - "~/_opt"
+    - "~/mongodb-linux-x86_64-2.6.4"
+    - "~/.meteor"
+    - "src/.meteor/local/build"
+    - "src/.meteor/local/bundler-cache"
+    - "src/.meteor/local/db"
+    - "src/.meteor/local/isopacks"
+    - "src/.meteor/local/plugin-cache"
+
+  override:
+    # Cache Mongo 2.6
+    # - if [[ ! -d ~/mongodb-linux-x86_64-2.6.4 ]]; then cd ~; wget http://downloads.mongodb.org/linux/mongodb-linux-x86_64-2.6.4.tgz && tar xvzf ~/mongodb-linux-x86_64-2.6.4.tgz; fi
+    # - sudo /etc/init.d/mongodb stop
+    # - sudo cp ~/mongodb-linux-x86_64-2.6.4/bin/* /usr/bin
+    # - sudo service mongodb start
+
+    # Cache Meteor
+    - if [ -d ~/.meteor ]; then sudo ln -s ~/.meteor/meteor /usr/local/bin/meteor; fi
+    - if [ ! -e $HOME/.meteor/meteor ]; then curl https://install.meteor.com | sh; fi
+
+    # Cache npm deps
+    - npm install
+
+    # Cache the build and dependencies
+    - .scripts/cache-build-and-dependencies.js:
+        environment:
+          MONGO_URL: "mongodb://localhost:27017/cache"
+
+    # Cache Selenium & ChromeDriver
+    - ./node_modules/.bin/chimp --path=features: # there are no tests in content
+        pwd: .scripts
+
+    # Cache Karma dependencies
+    - ./node_modules/.bin/karma start karma.conf.js
+
+test:
+  pre:
+    - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
+
+  override:
+    - node ./.scripts/test.js:
+        parallel: true
+        files:
+          - tests/specifications/*/*.feature
+          - tests/specifications/*.feature
+        environment:
+          MONGO_URL: "mongodb://localhost:27017/meteor"
+          CUCUMBER_JSON_OUTPUT: "$CIRCLE_TEST_REPORTS/cucumber/chrome.cucumber"
+          NODE_INDEX: $CIRCLE_NODE_INDEX
