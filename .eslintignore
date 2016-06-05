@@ -1,0 +1,5 @@
+wallaby_*.js
+src/node_modules
+src/imports/testing/_support/phantomPolyfill.js
+src/imports/testing/_support/react-meteor-data-stub.js
+src/imports/testing/client/__meteor_runtime_config__.js

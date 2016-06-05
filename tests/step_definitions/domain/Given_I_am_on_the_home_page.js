@@ -1,6 +1,8 @@
-module.exports = function() {
+/* global browser */
+
+module.exports = function () {
   this.Given(/^I am on the home page$/, function () {
     browser
-     .url('http://localhost:3000')
+     .url('http://localhost:3000');
   });
 };
