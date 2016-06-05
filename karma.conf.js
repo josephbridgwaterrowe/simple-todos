@@ -26,7 +26,6 @@ module.exports = function (config) {
     devtool: 'inline-source-map'
   };
 
-
   var packageStubs = fs.readdirSync('src/imports/testing/client/stubs')
     .map(function (fileName) {
       return 'packages/' + fileName;
@@ -41,12 +40,11 @@ module.exports = function (config) {
         ].indexOf(file.path) === -1;
     })
     .map(function (file) {
-      var basePath = packageStubs.indexOf(file.path) !== -1 ?
-        'src/imports/testing/client/stubs' :
-        'src/.meteor/local/build/programs/web.browser';
+      var basePath = packageStubs.indexOf(file.path) !== -1
+        ? 'src/imports/testing/client/stubs'
+        : 'src/.meteor/local/build/programs/web.browser';
       return {pattern: path.join(basePath, file.path)};
     });
-
 
   config.set({
 
@@ -65,12 +63,12 @@ module.exports = function (config) {
     // list of files / patterns to load in the browser
     files: [
       'src/.meteor/local/build/programs/web.browser/merged-stylesheets.css',
-      'src/imports/testing/client/__meteor_runtime_config__.js',
+      'src/imports/testing/client/__meteor_runtime_config__.js'
     ].concat(
       meteorPackageFiles,
       [
         {pattern: 'src/imports/testing/_support/**/*.@(js|jsx)'},
-        {pattern: 'src/imports/**/*-spec.@(js|jsx)'},
+        {pattern: 'src/imports/**/*-spec.@(js|jsx)'}
       ]
     ),
 
@@ -133,7 +131,7 @@ module.exports = function (config) {
 
   if (process.env.CI || process.env.TRAVIS || process.env.CIRCLECI) {
     // FIXME Travis / Circle don't seem to run Karma + Chrome, yet Chrome works with Chimp :/
-    //config.browsers = ['Chrome_CI', 'Firefox'];
+    // config.browsers = ['Chrome_CI', 'Firefox'];
     config.browsers = ['Firefox'];
     config.singleRun = true;
   } else {
